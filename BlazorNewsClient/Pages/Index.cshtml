@@ -1,0 +1,47 @@
+﻿@page "/"
+@inject AppService app
+@using BlazorNewsClient.Services
+@using MatBlazor.Components.MatAppBar
+
+<MatAppBar Fixed="true">
+    <MatAppBarRow>
+        <MatAppBarSection>
+            <MatIconButton Icon="menu"></MatIconButton>
+            <MatAppBarTitle>Blazor news client</MatAppBarTitle>
+        </MatAppBarSection>
+        <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+            <MatIconButton Icon="favorite" Link="http://samprof.com"></MatIconButton>
+        </MatAppBarSection>
+    </MatAppBarRow>
+</MatAppBar>
+
+@if (app.Data != null)
+{
+    <div class="main">
+        <h3>Blazor news</h3>
+
+        <MatList SingleSelection="true" TwoLine="true">
+            @foreach (var item in app.Data.Articles)
+            {
+                <MatListItem>
+                    <MatListItemText>
+                        <MatListItemPrimaryText>
+                            <a href="@item.Url" target="_blank">@item.Title</a>
+                        </MatListItemPrimaryText>
+                        <MatListItemSecondaryText>@item.Content</MatListItemSecondaryText>
+                    </MatListItemText>
+                </MatListItem>
+            }
+        </MatList>
+    </div>
+}
+
+@functions
+{
+
+    protected override async Task OnInitAsync()
+    {
+        await app.Load();
+    }
+
+}
